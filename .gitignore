@@ -1,10 +1,5 @@
-.vscode
-my_env
-unique_int/
-arrays.py
-linked_lists.py
-lists.py
-matrix_test.py
+# Large files
+data/*
 
 # python env
 bin/
@@ -22,7 +17,7 @@ summative/
 
 # Python files
 venv/
-
+my_env
 __pycache__/
 *.pyc
 *.cfg
