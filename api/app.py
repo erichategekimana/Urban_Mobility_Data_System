@@ -142,6 +142,38 @@ def get_derived_feature():
         
 
 
+# endpoint to return trip volume and avg speed for every hour of the day.
+""" this will be used to visualize the 'City heartbeat' or rush hours patterns
+which can be used to know when the busiest hours are and how traffic conditions change throughout the day.
+"""
+
+@app.route('/api/hourly-stats', methods=['GET'])
+def get_hourly_stats():
+    query = text("""
+        SELECT 
+            EXTRACT(HOUR FROM pickup_datetime) as trip_hour,
+            COUNT(*) as trip_count,
+            ROUND(AVG(average_speed_mph)::numeric, 2) as avg_speed
+        FROM trips
+        GROUP BY trip_hour
+        ORDER BY trip_hour
+    """)
+    
+    with engine.connect() as conn:
+        results = conn.execute(query).fetchall()
+        
+    hourly_data = []
+    for row in results:
+        hourly_data.append({
+            "hour": int(row[0]),      
+            "trip_count": row[1],
+            "average_speed": float(row[2])
+        })
+        
+    return jsonify(hourly_data)
+
+
+
 
 if __name__ == '__main__':
     print("Starting Flask API server...")
