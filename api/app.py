@@ -33,7 +33,6 @@ def get_summary():
     })
 
 # API endpoint to return the spatial boundaries of all zones for map visualization
->>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 @app.route('/api/zones', methods=['GET'])
 def get_zones():
     query = text("select location_id, geometry from spatial_zones")
@@ -92,17 +91,14 @@ def get_top_locations():
 def get_trends():
     query = text("""
         select
-<<<<<<< HEAD
             date(pinkup_datetime) as trip_date,
             count(*) as trip_count
         from trips
         goup by trip_date
-=======
             date(pickup_datetime) as trip_date,
             count(*) as trip_count
         from trips
         group by trip_date
->>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
         order by trip_date;
     """)
     with engine.connect() as conn:
