@@ -32,6 +32,11 @@ def get_summary():
         'avg_speed': float(result[3])
     })
 
+<<<<<<< HEAD
+=======
+
+# API endpoint to return the spatial boundaries of all zones for map visualization
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 @app.route('/api/zones', methods=['GET'])
 def get_zones():
     query = text("select location_id, geometry from spatial_zones")
@@ -90,10 +95,17 @@ def get_top_locations():
 def get_trends():
     query = text("""
         select
+<<<<<<< HEAD
             date(pinkup_datetime) as trip_date,
             count(*) as trip_count
         from trips
         goup by trip_date
+=======
+            date(pickup_datetime) as trip_date,
+            count(*) as trip_count
+        from trips
+        group by trip_date
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
         order by trip_date;
     """)
     with engine.connect() as conn:
@@ -108,12 +120,43 @@ def get_trends():
 
 
 
+<<<<<<< HEAD
 
 
 
 
 
 
+=======
+# derived Features API endpoint. This will return avg speed and tip percentage grouped by borough.
+@app.route('/api/derived-features', methods=['GET'])
+def get_derived_feature():
+    query = text("""
+        select
+            z.borough,
+            round(avg(t.average_speed_mph)::numeric, 2) as avg_speed,
+            round(avg(t.tip_percentage)::numeric, 2) as avg_tip_pct,
+            count(*) as trip_count
+        from trips t
+        join zones z on t.pu_location_id = z.location_id
+        where z.borough != 'Unknown'
+        group by z.borough
+        order by avg_speed desc
+    """)
+    with engine.connect() as conn:
+        result = conn.execute(query).fetchall()
+
+    stats = []
+    for row in result:
+        stats.append({
+            'borough': row[0],
+            'avg_speed_mph': float(row[1]),
+            'avg_tip_percentage': float(row[2]),
+            'trip_count': row[3]
+        })
+    return jsonify(stats)
+        
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 
 
 
