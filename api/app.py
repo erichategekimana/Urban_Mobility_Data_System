@@ -32,9 +32,6 @@ def get_summary():
         'avg_speed': float(result[3])
     })
 
-<<<<<<< HEAD
-=======
-
 # API endpoint to return the spatial boundaries of all zones for map visualization
 >>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 @app.route('/api/zones', methods=['GET'])
@@ -118,16 +115,6 @@ def get_trends():
         })
     return jsonify(trends)
 
-
-
-<<<<<<< HEAD
-
-
-
-
-
-
-=======
 # derived Features API endpoint. This will return avg speed and tip percentage grouped by borough.
 @app.route('/api/derived-features', methods=['GET'])
 def get_derived_feature():
@@ -155,10 +142,7 @@ def get_derived_feature():
             'trip_count': row[3]
         })
     return jsonify(stats)
-        
->>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
-
-
+    
 # endpoint to return trip volume and avg speed for every hour of the day.
 """ this will be used to visualize the 'City heartbeat' or rush hours patterns
 which can be used to know when the busiest hours are and how traffic conditions change throughout the day.
@@ -188,9 +172,6 @@ def get_hourly_stats():
         })
         
     return jsonify(hourly_data)
-
-
-
 
 if __name__ == '__main__':
     print("Starting Flask API server...")
