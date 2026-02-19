@@ -2,6 +2,11 @@
 
 This project provides a rubust ETL pipeline and RESTful API for analyzing NYC yellow taxi trip data(January 2019). It processes millions of records to provide insights into urban transit patterns.
 
+
+Task sheet link: https://docs.google.com/spreadsheets/d/1cY-gDM9p97ebjDCl-70Ybk8HoxvNKTeniHe7gmiydN4/edit?gid=0#gid=0
+
+Link to our trello: https://trello.com/invite/b/696677801090ad1325ce602d/ATTI3bedcb7f7813ee570f9fec3a1be0b6fcF601691B/teamsetupandprojectplanning
+
 ## System Architecture
 
 * **Backend:** Python Flask API providing RESTful endpoints for spatial and statistical data.
