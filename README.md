@@ -47,7 +47,7 @@ After the environment is set up, initiate the ETL process to load the January 20
 'source venv/bin/activate'
 'python3 etl/load_zones.py'
 'python3 etl/load_trips.py'
-### N.M: Run load_zones.py before load_trips.py
+### N.B: Run load_zones.py before load_trips.py
 
 
 ## Running the Application
