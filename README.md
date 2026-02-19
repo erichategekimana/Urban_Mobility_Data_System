@@ -7,6 +7,8 @@ Task sheet link: https://docs.google.com/spreadsheets/d/1cY-gDM9p97ebjDCl-70Ybk8
 
 Link to our trello: https://trello.com/invite/b/696677801090ad1325ce602d/ATTI3bedcb7f7813ee570f9fec3a1be0b6fcF601691B/teamsetupandprojectplanning
 
+Link to the video: https://drive.google.com/drive/folders/16iyvDcjxtM5whTAUDMvFhuInGT_G48Op?usp=sharing
+
 ## System Architecture
 
 * **Backend:** Python Flask API providing RESTful endpoints for spatial and statistical data.
