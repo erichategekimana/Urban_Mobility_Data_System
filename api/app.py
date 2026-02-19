@@ -10,8 +10,6 @@ CORS(app)
 DATABASE_URI = os.getenv('POSTGRES_DATABASE_URI')
 engine = create_engine(DATABASE_URI)
 
-
-
 # API endpoint to get summary statistics for trips
 """ Return hign-level stats for the dashboard cards"""
 @app.route('/api/summary', methods=['GET'])
@@ -34,8 +32,11 @@ def get_summary():
         'avg_speed': float(result[3])
     })
 
+<<<<<<< HEAD
+=======
 
 # API endpoint to return the spatial boundaries of all zones for map visualization
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 @app.route('/api/zones', methods=['GET'])
 def get_zones():
     query = text("select location_id, geometry from spatial_zones")
@@ -94,10 +95,17 @@ def get_top_locations():
 def get_trends():
     query = text("""
         select
+<<<<<<< HEAD
+            date(pinkup_datetime) as trip_date,
+            count(*) as trip_count
+        from trips
+        goup by trip_date
+=======
             date(pickup_datetime) as trip_date,
             count(*) as trip_count
         from trips
         group by trip_date
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
         order by trip_date;
     """)
     with engine.connect() as conn:
@@ -112,6 +120,14 @@ def get_trends():
 
 
 
+<<<<<<< HEAD
+
+
+
+
+
+
+=======
 # derived Features API endpoint. This will return avg speed and tip percentage grouped by borough.
 @app.route('/api/derived-features', methods=['GET'])
 def get_derived_feature():
@@ -140,6 +156,7 @@ def get_derived_feature():
         })
     return jsonify(stats)
         
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 
 
 # endpoint to return trip volume and avg speed for every hour of the day.

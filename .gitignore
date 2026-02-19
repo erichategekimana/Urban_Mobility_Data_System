@@ -22,8 +22,12 @@ my_env
 __pycache__/
 *.pyc
 *.cfg
+<<<<<<< HEAD
+# Server IP address
+=======
 
 # my server IP address
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
 *.svip
 
 # Environment variables
@@ -34,7 +38,12 @@ __pycache__/
 Thumbs.db
 
 # OTHERS
+<<<<<<< HEAD
+test_queries/*
+=======
 test_queries/*
 yellow_tripdata_2019-01.csv
 taxi_zones.zip
 taxi_zone_lookup.csv
+>>>>>>> 7e04deab0ef702b9d31bc91a76f9e6530abf0dac
+Urban_Mobility_Data_System/
