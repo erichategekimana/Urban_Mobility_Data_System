@@ -28,7 +28,6 @@ fi
 
 
 
-
 echo "Setting up the PostgreSQL database..."
 echo ""
 # Create the user/role
@@ -59,8 +58,42 @@ echo "Database setup complete!"
 # Add the database URI to .bashrc for easy access in the future
 echo "export POSTGRES_DATABASE_URI=\"postgresql://$username:$password@localhost:5432/nyc_taxi_data\"" >> ~/.bashrc
 echo ""
+
+
+# Define the name of the virtual environment folder
+VENV_DIR=".venv"
+
+echo "Checking for Python virtual environment..."
+
+# 1. Check if the directory exists
+if [ ! -d "$VENV_DIR" ]; then
+    echo "Virtual environment not found. Creating it now..."
+    
+    # Check if python3-venv is installed (common issue on Ubuntu)
+    if ! dpkg -l | grep -q python3-venv; then
+        echo "python3-venv is missing. Installing it..."
+        sudo apt update && sudo apt install -y python3-venv
+    fi
+
+    python3 -m venv $VENV_DIR
+    echo "Virtual environment created at $VENV_DIR."
+else
+    echo "Virtual environment already exists."
+fi
+
+# 2. Activate and update pip/dependencies
+echo "Installing/Updating dependencies..."
+source $VENV_DIR/bin/activate
+pip install --upgrade pip
+if [ -f "requirements.txt" ]; then
+    pip install -r requirements.txt
+    echo "Dependencies installed."
+else
+    echo "requirements.txt not found. Skipping package installation."
+fi
+
+
 echo ""
 echo "Database URI added to .bashrc. Please run 'source ~/.bashrc' to apply the changes."
-echo ""
 echo ""
 read -p "Press Enter to quit..."
