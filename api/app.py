@@ -83,7 +83,7 @@ def get_top_locations():
         top_ten.append({
             'zone': row[0],
             'borough': row[1],
-            'trip_count': row[2]
+            'count': row[2]
         })
 
     return jsonify(top_ten)
@@ -113,7 +113,7 @@ def get_trends():
 
 
 # derived Features API endpoint. This will return avg speed and tip percentage grouped by borough.
-@app.route('/api/derived-features', methods=['GET'])
+@app.route('/api/borough-stats', methods=['GET'])
 def get_derived_feature():
     query = text("""
         select
@@ -124,6 +124,8 @@ def get_derived_feature():
         from trips t
         join zones z on t.pu_location_id = z.location_id
         where z.borough != 'Unknown'
+          AND t.average_speed_mph < 100  -- Filter out the outliers with unrealistically high average speed
+          AND t.tip_percentage < 200  -- Filter out outliers with unrealistically high
         group by z.borough
         order by avg_speed desc
     """)
@@ -134,8 +136,8 @@ def get_derived_feature():
     for row in result:
         stats.append({
             'borough': row[0],
-            'avg_speed_mph': float(row[1]),
-            'avg_tip_percentage': float(row[2]),
+            'average_speed': float(row[1]),
+            'average_tip_percentage': float(row[2]),
             'trip_count': row[3]
         })
     return jsonify(stats)

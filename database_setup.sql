@@ -32,7 +32,7 @@ create table trips (
     dropoff_datetime timestamp not null,
     passenger_count smallint,
     trip_distance numeric(10,2),
-    rate_code integer,
+    rate_code_id integer,
     store_and_fwd_flag char(1),
     pu_location_id integer references zones(location_id) on delete cascade,
     do_location_id integer references zones(location_id) on delete cascade,
@@ -48,7 +48,7 @@ create table trips (
 
     -- these columns are for derived features, which will be calculated by our python script
     trip_duration_seconds integer,
-    average_speed numeric(10,2),
+    average_speed_mph numeric(10,2),
     tip_percentage numeric(5,2)
 );
 
