@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Mobility Data Explorer - NYC Taxi Analytics</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <h1>🚖 Urban Mobility Data Explorer</h1>
+            <p>Interactive analysis of NYC taxi trip patterns and urban mobility insights</p>
+        </header>
+
+        <!-- Control Panel -->
+        <div class="control-panel">
+            <div class="filters-section">
+                <h3>Filters & Controls</h3>
+                
+                <div class="filter-group">
+                    <label for="date-range">Date Range:</label>
+                    <input type="date" id="start-date" name="start-date">
+                    <input type="date" id="end-date" name="end-date">
+                </div>
+
+                <div class="filter-group">
+                    <label for="borough-filter">Borough:</label>
+                    <select id="borough-filter">
+                        <option value="">All Boroughs</option>
+                        <option value="Manhattan">Manhattan</option>
+                        <option value="Brooklyn">Brooklyn</option>
+                        <option value="Queens">Queens</option>
+                        <option value="Bronx">Bronx</option>
+                        <option value="Staten Island">Staten Island</option>
+                    </select>
+                </div>
+
+                <div class="filter-group">
+                    <label for="fare-range">Fare Range ($):</label>
+                    <input type="range" id="min-fare" min="0" max="200" value="0" step="5">
+                    <input type="range" id="max-fare" min="0" max="200" value="200" step="5">
+                    <span id="fare-display">$0 - $200</span>
+                </div>
+
+                <div class="filter-group">
+                    <label for="distance-range">Trip Distance (miles):</label>
+                    <input type="range" id="min-distance" min="0" max="50" value="0" step="1">
+                    <input type="range" id="max-distance" min="0" max="50" value="50" step="1">
+                    <span id="distance-display">0 - 50 miles</span>
+                </div>
+
+                <div class="filter-actions">
+                    <button id="apply-filters" class="btn-primary">Apply Filters</button>
+                    <button id="reset-filters" class="btn-secondary">Reset</button>
+                    <!-- <button id="export-data" class="btn-accent">Export Data</button> -->
+                </div>
+            </div>
+
+            <!-- Summary Stats -->
+            <div class="summary-stats">
+                <h3>Quick Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="stat-value" id="total-trips">-</span>
+                        <span class="stat-label">Total Trips</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="avg-fare">-</span>
+                        <span class="stat-label">Avg Fare</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="avg-distance">-</span>
+                        <span class="stat-label">Avg Distance</span>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-value" id="peak-hour">-</span>
+                        <span class="stat-label">Peak Hour</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Dashboard Content -->
+        <div class="dashboard-content">
+            <!-- Tab Navigation -->
+            <div class="tab-navigation">
+                <button class="tab-btn active" data-tab="overview">Overview</button>
+                <button class="tab-btn" data-tab="temporal">Temporal Analysis</button>
+                <button class="tab-btn" data-tab="spatial">Spatial Patterns</button>
+                <button class="tab-btn" data-tab="economics">Economics</button>
+                <button class="tab-btn" data-tab="insights">Advanced Insights</button>
+            </div>
+
+            <!-- Tab Content -->
+            <div class="tab-content">
+                <!-- Overview Tab -->
+                <div id="overview" class="tab-panel active">
+                    <div class="chart-grid">
+                        <div class="chart-container">
+                            <h4>Trip Volume by Hour</h4>
+                            <canvas id="hourly-volume-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Fare Distribution</h4>
+                            <canvas id="fare-distribution-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Top Pickup Locations</h4>
+                            <canvas id="pickup-locations-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Distance vs Fare Correlation</h4>
+                            <canvas id="distance-fare-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Temporal Analysis Tab -->
+                <div id="temporal" class="tab-panel">
+                    <div class="chart-grid">
+                        <div class="chart-container full-width">
+                            <h4>Daily Trip Patterns</h4>
+                            <canvas id="daily-patterns-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Weekly Seasonality</h4>
+                            <canvas id="weekly-seasonality-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Monthly Trends</h4>
+                            <canvas id="monthly-trends-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spatial Patterns Tab -->
+                <div id="spatial" class="tab-panel">
+                    <div class="chart-grid">
+                        <div class="chart-container full-width">
+                            <h4>NYC Taxi Zone Heatmap</h4>
+                            <div id="map-container"></div>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Borough Comparison</h4>
+                            <canvas id="borough-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Popular Routes</h4>
+                            <div id="routes-visualization"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Economics Tab -->
+                <div id="economics" class="tab-panel">
+                    <div class="chart-grid">
+                        <div class="chart-container">
+                            <h4>Revenue Analysis</h4>
+                            <canvas id="revenue-analysis-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Tip Patterns</h4>
+                            <canvas id="tip-patterns-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Payment Methods</h4>
+                            <canvas id="payment-methods-chart"></canvas>
+                        </div>
+                        <div class="chart-container">
+                            <h4>Profitability Metrics</h4>
+                            <canvas id="profitability-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Advanced Insights Tab -->
+                <div id="insights" class="tab-panel">
+                    <div class="insights-grid">
+                        <div class="insight-card">
+                            <h4>Key Findings</h4>
+                            <div id="key-findings"></div>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Anomaly Detection</h4>
+                            <canvas id="anomaly-chart"></canvas>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Predictive Modeling</h4>
+                            <canvas id="prediction-chart"></canvas>
+                        </div>
+                        <div class="insight-card">
+                            <h4>Performance Metrics</h4>
+                            <div id="performance-metrics"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Data Table -->
+        <div class="data-table-section">
+            <h3>Trip Details</h3>
+            <div class="table-controls">
+                <input type="text" id="search-table" placeholder="Search for trips...">
+                <select id="sort-table">
+                    <option value="pickup_datetime">Sort by Pickup Time</option>
+                    <option value="fare_amount">Sort by Fare</option>
+                    <option value="trip_distance">Sort by Distance</option>
+                    <option value="trip_duration">Sort by Duration</option>
+                </select>
+                <select id="page-size">
+                    <option value="25">25 per page</option>
+                    <option value="50">50 per page</option>
+                    <option value="100">100 per page</option>
+                </select>
+            </div>
+            <div class="table-container">
+                <table id="trips-table">
+                    <thead>
+                        <tr>
+                            <th>Pickup Time</th>
+                            <th>Pickup Zone</th>
+                            <th>Dropoff Zone</th>
+                            <th>Distance</th>
+                            <th>Duration</th>
+                            <th>Fare</th>
+                            <th>Tip</th>
+                            <th>Total</th>
+                        </tr>
+                    </thead>
+                    <tbody id="trips-tbody">
+                        <!-- Dynamic content -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="pagination">
+                <button id="prev-page">&lt; Previous</button>
+                <span id="page-info"></span>
+                <button id="next-page">Next &gt;</button>
+            </div>
+        </div>
+
+        <!-- Loading Indicator -->
+        <div id="loading-indicator" class="loading">
+            <div class="spinner"></div>
+            <p>Loading taxi data...</p>
+        </div>
+
+        <!-- Footer -->
+        <footer class="dashboard-footer">
+            <p>NYC Taxi Data Explorer ALU Summative Group 2</p>
+        </footer>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>
