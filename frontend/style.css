@@ -1,0 +1,58 @@
+/* Sidebar Container */
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    width: 200px; 
+    background-color: #212529;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    padding: 15px;
+    z-index: 1000;
+}
+
+.sidebar-brand {
+    font-size: 1.4rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 40px;
+    color: #4e73df;
+    line-height: 1.2;
+}
+
+.sidebar .nav-link {
+    color: #adb5bd;
+    font-size: 1.1rem;
+    padding: 15px 10px;
+    margin: 8px 0;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar .nav-link.active {
+    color: white;
+    background-color: #4e73df;
+}
+
+.nav-icon { margin-right: 12px; font-size: 1.3rem; }
+
+/* Offset for Main Content - CRITICAL */
+.main-content {
+    margin-left: 200px; 
+    padding: 20px;
+    width: calc(100% - 200px); 
+    min-height: 100vh;
+}
+
+#map { width: 100%; height: 500px; border-radius: 0 0 12px 12px; }
+
+.chart-container { position: relative; height: 40vh; width: 100%; }
+
+.content-section { animation: fadeIn 0.3s ease-in-out; }
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
