@@ -1,4 +1,4 @@
- from flask import Flask, jsonify
+from flask import Flask, jsonify
 from flask_cors import CORS
 from sqlalchemy import create_engine, text
 import os
