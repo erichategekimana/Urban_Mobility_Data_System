@@ -26,6 +26,11 @@ Before installation, ensure the following are installed on your system:
 * PostgreSQL (Version 13 or higher)
 * Python (Version 3.10 or higher)
 * Bash environment (Native on Ubuntu/Linux)
+* Data components(Test files): Download these files and copy them into 'Urban_mobility_Data_system/data/' as a part of project
+
+Get files here: https://drive.google.com/drive/folders/1xOEyIJXFKnWfUfu1ROtE-y3hJ-Ep6n5R?usp=sharing
+
+N.B: Make sure that you have all three files in the 'data' directory.
 
 ## Installation and Database Setup
 
