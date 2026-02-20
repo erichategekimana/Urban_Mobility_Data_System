@@ -15,6 +15,11 @@ Link to the video: https://drive.google.com/drive/folders/16iyvDcjxtM5whTAUDMvFh
 * **Database:** PostgreSQL with PostGIS for spatial data management and trip record storage.
 * **Frontend:** JavaScript-based dashboard utilizing Leaflet.js for mapping and Chart.js for data visualization.
 
+## Project structure
+
+<img width="571" height="637" alt="image" src="https://github.com/user-attachments/assets/b9aba519-fe60-4316-aa66-49e19b013c88" />
+
+
 ## Prerequisites
 
 Before installation, ensure the following are installed on your system:
